@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WebSocket | myChatRoom</title>
+
+    <head>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="modules/mustache/mustache.min.js"></script>
+        <link rel="stylesheet" href="assets/main.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <script src="assets/mySocket.js"></script>
+        <script src="https://use.fontawesome.com/cb48caa32e.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <nav>
+                <ul class="navigation">
+                    <li class="navigation__brand">
+                        <div class="">
+                            <a href="#" class="">
+                                <i class="fa fa-comment-o fa-2x" aria-hidden="true"></i>
+                                WebChat  <span id="salaAtual">Sala Global</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <a href="#" class="acessRoom" onclick="entrar();" id="entrar"> Quero participar!</a>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="grid">
+            <sidebar class="col__20 ">
+                <!--sidebar -->
+                <div class="box">
+                    <ul class="box__contacts" id="salasGlobais">
+                        <li class="sala" room="global">
+                            <a>
+                                <div class="box__photo">
+                                    <img src="https://api.adorable.io/avatars/60/global.png" alt="" class="box__contacts--images">
+                                </div>
+                                <span class="box__contacts--name">Sala Global</span> <br>
+                            </a>
+                        </li>
+
+                        <li class="sala" room="1">
+                            <a>
+                                <div class="box__photo">
+                                    <img src="https://api.adorable.io/avatars/60/sala1.png" alt="" class="box__contacts--images">
+                                </div>
+                                <span class="box__contacts--name">Sala 1</span> <br>
+                            </a>
+                        </li>
+
+                        <li class="sala" room="2">
+                            <a>
+                                <div class="box__photo">
+                                    <img src="https://api.adorable.io/avatars/60/sala2.png" alt="" class="box__contacts--images">
+                                </div>
+                                <span class="box__contacts--name">Sala 2</span> <br>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <h4 class="box__contacts--title">
+                        <i class="fa fa-lock" aria-hidden="true"></i> Inbox
+                    </h4>
+                    <ul class="box__contacts" id="privates-container">  </ul>
+                    <h4>
+                         <span class="box__contacts--statusOnline">
+                        <i class="fa fa-comments" aria-hidden="true"></i> Online
+                        <span>
+                    </h4>
+                        <ul class="box__contacts" id="users-container"></ul>
+
+                        <h4>
+                                <span class="box__contacts--statusOffline">
+                               <i class="fa fa-comments" aria-hidden="true"></i> Offline
+                               <span>
+                           </h4>
+                               <ul class="box__contacts" id="users-container"></ul>
+                </div>
+            </sidebar>
+            <!-- col--20-->
+
+
+            <div class="col__70 js_wrapper">
+                <!--content -->
+
+
+                <div class="body-message" id="mensagens-container">
+
+                </div>
+                <div class="sendMessage box__contacts--search">
+                    <textarea class="send-box"
+                              id="input-msg"
+                              placeholder="Digite sua mensagem...">
+                    </textarea>
+                    <span class="icoMessage" id="enviar">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
+
+        <script id="mensagens-tmpl" type="x-tmpl-mustache">
+            <div id="mensagens">
+                {{#messages}}
+                <p class="message-box mensagens-item"><b>{{from}}</b> - {{msg}} <br></p>
+                {{/messages}}
+            </div>
+        </script>
+
+        <script id="users-tmpl" type="x-tmpl-mustache">
+            {{#users}}
+            <li class="user-item" socket="{{socket_id}}" nome="{{nome}}">
+                <a>
+                    <div class="box__photo">
+                        <img src="https://api.adorable.io/avatars/60/{{socket_id}}.png" alt="" class="box__contacts--images">
+                    </div>
+                    <span class="box__contacts--name">{{nome}}</span> <br>
+                    <span class="box__contacts--lastMessage"> "{{socket_id}}"</span>
+                </a>
+            </li>
+            {{/users}}
+        </script>
+
+        <script id="privates-tmpl" type="x-tmpl-mustache">
+            {{#privates}}
+            <li class="private-item" privateid="{{id}}">
+                <a>
+                    <div class="box__photo">
+                        <img src="https://api.adorable.io/avatars/60/{{id}}.png" alt="" class="box__contacts--images">
+                    </div>
+                    <span class="box__contacts--name">{{messages[0].from}}</span> <br>
+                    <span class="box__contacts--lastMessage"> Nova mensagem</span>
+                </a>
+            </li>
+            {{/privates}}
+        </script>
+
+    </body>
+
+</html>

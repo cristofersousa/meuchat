@@ -1,11 +1,14 @@
 # socketio-chat
+ > POC  ( Node + WebSocket_ 
 
-Clone o projeto
+1. git clone
+2. cd meuchat
+3. npm i
+4. node app.js
 
-`npm install`
+Run project port:3000
+> `http://localhost:3000`
 
-`node app.js`
+Para testar localmente vários usuário acessando a mesma sala basta abrir varias abas do browser.
 
-`http://localhost:3000` é a URL do Chat.
 
- Para testar localmente é possível abrir duas abas ou duas janelas diferentes do navegador.
